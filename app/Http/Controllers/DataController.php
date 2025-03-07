@@ -17,6 +17,8 @@ class DataController extends Controller
         $avgPollution = Data::average('pollution');
         $avgLumiere = Data::average('lumiere');
 
+        $last5Lines = Data::orderBy('timestamp', 'desc')->limit(10)->get();
+
         return response(
             [
                 "success" => 1,
@@ -26,6 +28,7 @@ class DataController extends Controller
                     'avgPollution' => $avgPollution,
                     'avgLumiere' => $avgLumiere,
                     'avgHumidite' => $avgHumidite,
+                    'last5Lines' => $last5Lines,
                     'dataLength' => count($data),
                     'data' => $data,
                 ]
