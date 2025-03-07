@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Data;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -18,7 +19,7 @@ class DataController extends Controller
         $avgPollution = Data::average('pollution');
         $avgLumiere = Data::average('lumiere');
 
-        $last5Lines = Data::orderBy('timestamp', 'desc')->limit(10)->get();
+        $last5Lines = Data::orderByDesc('id')->limit(25)->get();
 
         return response(
             [
@@ -43,10 +44,10 @@ class DataController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'humidite' => ['required'],
-                'temperature' => ['required'],
-                'pollution' => ['required'],
-                'lumiere' => ['required'],
+                'hum' => ['required'],
+                'temp' => ['required'],
+                'pol' => ['required'],
+                'lum' => ['required'],
             ]
         );
 
@@ -59,11 +60,14 @@ class DataController extends Controller
                 403
             );
         }
+
+        $setting = Setting::findOrFail(1);
+
         $data = Data::create([
-            "humidite" => $request->hum,
-            "temperature" => $request->temp,
-            "pollution" => $request->pol,
-            "lumiere" => $request->lum,
+            "humidite" => $setting->humidite ? $request->hum : null,
+            "temperature" => $setting->temperature ? $request->temp : null,
+            "pollution" => $setting->pollution ? $request->pol : null,
+            "lumiere" => $setting->lumiere ? $request->lum : null,
         ]);
 
 
@@ -78,4 +82,45 @@ class DataController extends Controller
             200
         );
     }
+
+    public function humidite() {
+
+        $setting = Setting::findOrFail(1);
+        $setting->humidite = ! $setting->humidite;
+        $setting->save();
+
+        return redirect()->back();
+
+    }
+
+    public function temperature() {
+
+        $setting = Setting::findOrFail(1);
+        $setting->temperature = ! $setting->temperature;
+        $setting->save();
+
+        return redirect()->back();
+
+    }
+
+    public function pollution() {
+
+        $setting = Setting::findOrFail(1);
+        $setting->pollution = ! $setting->pollution;
+        $setting->save();
+
+        return redirect()->back();
+
+    }
+
+    public function lumiere() {
+
+        $setting = Setting::findOrFail(1);
+        $setting->lumiere = ! $setting->lumiere;
+        $setting->save();
+
+        return redirect()->back();
+
+    }
+
 }
