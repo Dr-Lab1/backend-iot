@@ -5,3 +5,4 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/get-data', [DataController::class, 'getData']);
+Route::any('/create-data', [DataController::class, 'create']);
