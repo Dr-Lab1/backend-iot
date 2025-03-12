@@ -50,16 +50,6 @@
 
                             </form>
 
-                            <form action="{{ route('lumiere') }}">
-
-                                <div class="row m-2">
-                                    <div class="col-12">
-                                        <button type="submit" class="btn btn-primary">Lumiere</button>
-                                    </div>
-                                </div>
-
-                            </form>
-
                         </div>
                     </div>
 

@@ -47,7 +47,6 @@ class DataController extends Controller
                 'hum' => ['required'],
                 'temp' => ['required'],
                 'pol' => ['required'],
-                'lum' => ['required'],
             ]
         );
 
@@ -67,7 +66,6 @@ class DataController extends Controller
             "humidite" => $setting->humidite ? $request->hum : null,
             "temperature" => $setting->temperature ? $request->temp : null,
             "pollution" => $setting->pollution ? $request->pol : null,
-            "lumiere" => $setting->lumiere ? $request->lum : null,
         ]);
 
 
@@ -107,16 +105,6 @@ class DataController extends Controller
 
         $setting = Setting::findOrFail(1);
         $setting->pollution = ! $setting->pollution;
-        $setting->save();
-
-        return redirect()->back();
-
-    }
-
-    public function lumiere() {
-
-        $setting = Setting::findOrFail(1);
-        $setting->lumiere = ! $setting->lumiere;
         $setting->save();
 
         return redirect()->back();
